@@ -1,0 +1,102 @@
+<html>
+
+<head>
+
+    <title>Create New Account</title>
+	
+    <style>
+	
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            font-family: Arial, sans-serif;
+        }
+		
+        .account-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 400px; 
+            text-align: center; 
+        }
+		
+        .account-box h2 {
+            margin-bottom: 20px;
+            color: #333; 
+        }
+		
+        .account-box label {
+            display: block;
+            margin: 10px 0;
+            text-align: left; 
+        }
+		
+        .account-box input {
+            width: calc(100% - 20px); 
+            padding: 10px;
+            margin: 5px 0; 
+            border: 1px solid #ccc; 
+            border-radius: 5px;
+        }
+		
+        .account-box button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4c6ef5; 
+            color: white;
+            cursor: pointer;
+            font-size: 16px; 
+            margin-top: 10px; 
+        }
+		
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+		
+        .header a {
+            text-decoration: none;
+            color: #4c6ef5; 
+        }
+		
+    </style>
+	
+</head>
+
+<body>
+
+<div class="account-box">
+    <div class="header">
+        <h2>Create New Account</h2>
+        <a href="project.html">Login</a>
+    </div>
+    
+    <label for="email">Email:</label>
+    <input type="email" id="email" placeholder="Email" required>
+    
+    <label for="id">ID:</label>
+    <input type="text" id="id" placeholder="ID" required>
+    
+    <label for="username">User Name:</label>
+    <input type="text" id="username" placeholder="Username" required>
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Password" required>
+    
+    <label for="confirm-password">Confirm Password:</label>
+    <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+    <a href="project1.html">
+    <button type="submit">Create New Account</button></a>
+</div>
+
+</body>
+
+</html>

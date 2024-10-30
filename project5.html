@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-right: 20px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+        .sidebar h2 {
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .language-selector {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .search-box {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .category {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .entry {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .app-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .app-info i {
+            margin-right: 10px;
+            font-size: 1.5em;
+            color: #007bff;
+        }
+        .password-input {
+            font-family: monospace;
+            color: #333;
+            font-size: 1.1em;
+            margin-right: 10px;
+            letter-spacing: 1px;
+            width: 150px;
+        }
+        .eye-icon {
+            cursor: pointer;
+            margin-left: 5px;
+            font-size: 1.2em;
+            color: #007bff;
+        }
+        .change-link {
+            font-size: 0.9em;
+            margin-left: 20px;
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .generate-password {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .generate-password button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .strength-text {
+            font-size: 0.9em;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 5px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="#" id="home-link">Home</a></li>
+            <li><a href="#" id="settings-link">Settings</a></li>
+            <li><a href="#" id="more-link">More</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1 id="header-title">Password Manager</h1>
+            <p id="header-subtitle">Manage your passwords securely</p>
+        </div>
+
+        <div class="language-selector">
+            <label for="language">Select Language:</label>
+            <select id="language" onchange="changeLanguage()">
+                <option value="en">English</option>
+                <option value="ar">العربية</option>
+                <option value="fr">Français</option>
+            </select>
+        </div>
+
+        <div class="search-box">
+            <input type="text" placeholder="Search for an app...">
+        </div>
+
+        <div class="category">
+            <h2 id="social-media-title">Social Media</h2>
+            <div class="entry">
+                <div class="app-info">
+                    <i class="fab fa-facebook"></i>
+                    <div class="app-name">Facebook</div>
+                    <input type="text" class="password-input" value="password123" oninput="evaluatePasswordStrength(this.value, this)" required>
+                    <i class="fas fa-eye eye-icon" onclick="togglePasswordVisibility(this)"></i>
+                    <a class="change-link">Change</a>
+                </div>
+                <div class="email">email@example.com</div>
+                <div class="strength-text">Strength: <span class="strength-indicator-text">Very Weak</span></div>
+            </div>
+            <div class="entry">
+                <div class="app-info">
+                    <i class="fab fa-instagram"></i>
+                    <div class="app-name">Instagram</div>
+                    <input type="text" class="password-input" value="password456" oninput="evaluatePasswordStrength(this.value, this)" required>
+                    <i class="fas fa-eye eye-icon" onclick="togglePasswordVisibility(this)"></i>
+                    <a class="change-link">Change</a>
+                </div>
+                <div class="email">email@example.com</div>
+                <div class="strength-text">Strength: <span class="strength-indicator-text">Weak</span></div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>Messaging Apps</h2>
+            <div class="entry">
+                <div class="app-info">
+                    <i class="fab fa-twitter"></i>
+                    <div class="app-name">Twitter</div>
+                    <input type="text" class="password-input" value="password789" oninput="evaluatePasswordStrength(this.value, this)" required>
+                    <i class="fas fa-eye eye-icon" onclick="togglePasswordVisibility(this)"></i>
+                    <a class="change-link">Change</a>
+                </div>
+                <div class="email">email@example.com</div>
+                <div class="strength-text">Strength: <span class="strength-indicator-text">Strong</span></div>
+            </div>
+            <div class="entry">
+                <div class="app-info">
+                    <i class="fab fa-snapchat-ghost"></i>
+                    <div class="app-name">Snapchat</div>
+                    <input type="text" class="password-input" value="password111" oninput="evaluatePasswordStrength(this.value, this)" required>
+                    <i class="fas fa-eye eye-icon" onclick="togglePasswordVisibility(this)"></i>
+                    <a class="change-link">Change</a>
+                </div>
+                <div class="email">email@example.com</div>
+                <div class="strength-text">Strength: <span class="strength-indicator-text">Very Weak</span></div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>Other Apps</h2>
+            <div class="entry">
+                <div class="app-info">
+                    <i class="fab fa-linkedin"></i>
+                    <div class="app-name">LinkedIn</div>
+                    <input type="text" class="password-input" value="password654" oninput="evaluatePasswordStrength(this.value, this)" required>
+                    <i class="fas fa-eye eye-icon" onclick="togglePasswordVisibility(this)"></i>
+                    <a class="change-link">Change</a>
+                </div>
+                <div class="email">email@example.com</div>
+                <div class="strength-text">Strength: <span class="strength-indicator-text">Strong</span></div>
+            </div>
+            <div class="entry">
+                <div class="app-info">
+                    <i class="fas fa-user-graduate"></i>
+                    <div class="app-name">JUST Student</div>
+                    <input type="text" class="password-input" value="password987" oninput="evaluatePasswordStrength(this.value, this)" required>
+                    <i class="fas fa-eye eye-icon" onclick="togglePasswordVisibility(this)"></i>
+                    <a class="change-link">Change</a>
+                </div>
+                <div class="email">email@example.com</div>
+                <div class="strength-text">Strength: <span class="strength-indicator-text">Weak</span></div>
+            </div>
+        </div>
+
+        <div class="add-entry">
+            <h2>Add New Entry</h2>
+            <input type="text" id="newAppName" placeholder="App Name" required>
+            <input type="text" id="newPassword" placeholder="Password" oninput="evaluatePasswordStrength(this.value, this)" required>
+            <button onclick="addEntry()">Add Entry</button>
+            <div class="strength-text">Strength: <span id="newStrength">Weak</span></div>
+        </div>
+
+        <div class="generate-password">
+            <button onclick="generatePassword()">Generate Strong Password</button>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                headerTitle: "Password Manager",
+                headerSubtitle: "Manage your passwords securely",
+                socialMediaTitle: "Social Media",
+                homeLink: "Home",
+                settingsLink: "Settings",
+                moreLink: "More"
+            },
+            ar: {
+                headerTitle: "مدير كلمات المرور",
+                headerSubtitle: "إدارة كلمات المرور الخاصة بك بأمان",
+                socialMediaTitle: "وسائل التواصل الاجتماعي",
+                homeLink: "الرئيسية",
+                settingsLink: "الإعدادات",
+                moreLink: "المزيد"
+            },
+            fr: {
+                headerTitle: "Gestionnaire de mots de passe",
+                headerSubtitle: "Gérez vos mots de passe en toute sécurité",
+                socialMediaTitle: "Réseaux sociaux",
+                homeLink: "Accueil",
+                settingsLink: "Paramètres",
+                moreLink: "Plus"
+            }
+        };
+
+        function changeLanguage() {
+            const lang = document.getElementById('language').value;
+            document.getElementById('header-title').innerText = translations[lang].headerTitle;
+            document.getElementById('header-subtitle').innerText = translations[lang].headerSubtitle;
+            document.getElementById('social-media-title').innerText = translations[lang].socialMediaTitle;
+            document.getElementById('home-link').innerText = translations[lang].homeLink;
+            document.getElementById('settings-link').innerText = translations[lang].settingsLink;
+            document.getElementById('more-link').innerText = translations[lang].moreLink;
+        }
+
+        function togglePasswordVisibility(icon) {
+            const passwordInput = icon.previousElementSibling;
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+
+        function generatePassword() {
+            const length = 12;
+            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset[randomIndex];
+            }
+            document.getElementById('newPassword').value = password;
+            evaluatePasswordStrength(password, document.getElementById('newPassword'));
+        }
+
+        function evaluatePasswordStrength(password, inputElement) {
+            const strengthText = document.getElementById('newStrength');
+            let strength = 0;
+
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+            if (strength === 1) {
+                strengthText.textContent = "Very Weak";
+            } else if (strength === 2) {
+                strengthText.textContent = "Weak";
+            } else if (strength === 3) {
+                strengthText.textContent = "Medium";
+            } else if (strength >= 4) {
+                strengthText.textContent = "Strong";
+            }
+        }
+
+        function addEntry() {
+            const appName = document.getElementById('newAppName').value;
+            const password = document.getElementById('newPassword').value;
+
+            if (appName && password) {
+                const entry = document.createElement('div');
+                entry.className = 'entry';
+                entry.innerHTML = `
+                    <div class="app-info">
+                        <i class="fab fa-app-store"></i>
+                        <div class="app-name">${appName}</div>
+                        <input type="text" class="password-input" value="${password}" oninput="evaluatePasswordStrength(this.value, this)" required>
+                        <i class="fas fa-eye eye-icon" onclick="togglePasswordVisibility(this)"></i>
+                        <a class="change-link">Change</a>
+                    </div>
+                    <div class="email">email@example.com</div>
+                    <div class="strength-text">Strength: <span class="strength-indicator-text">Weak</span></div>
+                `;
+                document.querySelector('.container').appendChild(entry);
+                document.getElementById('newAppName').value = '';
+                document.getElementById('newPassword').value = '';
+                evaluatePasswordStrength(password, document.getElementById('newPassword'));
+            }
+        }
+    </script>
+</body>
+</html>
